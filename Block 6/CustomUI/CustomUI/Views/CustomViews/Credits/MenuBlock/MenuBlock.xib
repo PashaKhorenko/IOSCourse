@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuBlock" customModule="CustomUI" customModuleProvider="target">
+            <connections>
+                <outlet property="conteinerForIconView" destination="pon-xN-SK5" id="mtp-DS-DvN"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="xs6-cv-bb7"/>
+                <outlet property="iconImageView" destination="oB9-8x-zJd" id="fmj-kU-eEz"/>
+                <outlet property="titleLabel" destination="cR3-f3-ZyU" id="U34-ne-2Nq"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="384" height="210"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cR3-f3-ZyU">
+                    <rect key="frame" x="20" y="119.33333333333331" width="344" height="80.666666666666686"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pon-xN-SK5" userLabel="Conteiner View">
+                    <rect key="frame" x="19.999999999999993" y="19.999999999999993" width="89.333333333333314" height="89.333333333333314"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oB9-8x-zJd">
+                            <rect key="frame" x="11" y="11" width="67" height="67"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="oB9-8x-zJd" secondAttribute="height" multiplier="1:1" id="rSV-C2-e0N"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="oB9-8x-zJd" firstAttribute="centerX" secondItem="pon-xN-SK5" secondAttribute="centerX" id="NMp-qk-d3j"/>
+                        <constraint firstAttribute="width" secondItem="pon-xN-SK5" secondAttribute="height" multiplier="1:1" id="UnV-AM-ADS"/>
+                        <constraint firstItem="oB9-8x-zJd" firstAttribute="centerY" secondItem="pon-xN-SK5" secondAttribute="centerY" id="kPE-M4-oOZ"/>
+                        <constraint firstItem="oB9-8x-zJd" firstAttribute="height" secondItem="pon-xN-SK5" secondAttribute="height" multiplier="3:4" id="kkr-1N-FmX"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cR3-f3-ZyU" secondAttribute="bottom" constant="10" id="0gE-CY-Wi9"/>
+                <constraint firstItem="pon-xN-SK5" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="4RH-jC-Mu7"/>
+                <constraint firstItem="cR3-f3-ZyU" firstAttribute="top" secondItem="pon-xN-SK5" secondAttribute="bottom" constant="10" id="8gw-jW-CRZ"/>
+                <constraint firstItem="pon-xN-SK5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="IPx-U6-hLs"/>
+                <constraint firstItem="pon-xN-SK5" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="1.7:4" id="VxO-bI-cCI"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cR3-f3-ZyU" secondAttribute="trailing" constant="20" id="lJd-sb-XaI"/>
+                <constraint firstItem="cR3-f3-ZyU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="wsm-s0-4YM"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-157.25190839694656" y="-183.80281690140845"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
