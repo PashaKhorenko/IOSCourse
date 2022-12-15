@@ -20,7 +20,6 @@ class CitiesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         citiesTableView.delegate = self
         citiesTableView.dataSource = self
         
@@ -32,13 +31,17 @@ class CitiesViewController: UIViewController {
     }
     
     private func showAlert() {
-        print(#function)
-        
         let alertController = UIAlertController(title: "New City", message: "Add the name of the city ", preferredStyle: .alert)
         
         let doneAction = UIAlertAction(title: "Done", style: .default) { _ in
-            guard let city = alertController.textFields?[0].text else { return }
-            self.data.insert(city, at: 0)
+            
+            guard let text = alertController.textFields?[0].text else { return }
+            let cityName = text.trimmingCharacters(in: .whitespaces)
+            
+            if !cityName.isEmpty {
+                self.data.insert(cityName, at: 0)
+            }
+            
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
@@ -59,6 +62,7 @@ class CitiesViewController: UIViewController {
 // MARK: - UITableViewDataSource
 
 extension CitiesViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         data.count
     }
@@ -75,6 +79,7 @@ extension CitiesViewController: UITableViewDataSource {
 
 extension CitiesViewController: UITableViewDelegate {
     
+    // Click on the cell
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController else { return }
@@ -87,6 +92,7 @@ extension CitiesViewController: UITableViewDelegate {
         citiesTableView.deselectRow(at: indexPath, animated: true)
     }
     
+    // Swipe right
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         // Delete action
