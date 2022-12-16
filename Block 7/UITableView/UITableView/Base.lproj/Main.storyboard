@@ -20,6 +20,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="7xs-ru-P7P" kind="relationship" relationship="viewControllers" id="6An-hg-7PH"/>
+                        <segue destination="6Cp-BE-fTv" kind="relationship" relationship="viewControllers" id="dQm-OA-xOU"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eAl-gl-kgy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -52,7 +53,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="lmm-V4-Bek">
-                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <rect key="frame" x="0.0" y="155" width="393" height="614"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="l4q-Cf-pb0">
@@ -88,7 +89,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="093-zE-msg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2067.93893129771" y="-399.29577464788736"/>
+            <point key="canvasLocation" x="2056" y="-399"/>
+        </scene>
+        <!--Custom design-->
+        <scene sceneID="nWU-pJ-5Xo">
+            <objects>
+                <navigationController id="6Cp-BE-fTv" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Custom design" image="2.circle" catalog="system" id="GT5-66-kpD"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Ugn-Yd-daa">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="QCw-ZZ-702" kind="relationship" relationship="rootViewController" id="dnz-uR-nL7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9HY-u4-d18" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1170" y="272"/>
+        </scene>
+        <!--Instagram-->
+        <scene sceneID="DG3-l7-hKd">
+            <objects>
+                <viewController id="QCw-ZZ-702" customClass="InstagramViewController" customModule="UITableView" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3eu-co-0kd">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="yJZ-gg-xge">
+                                <rect key="frame" x="0.0" y="155" width="393" height="614"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="7nf-61-FZl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="7nf-61-FZl" firstAttribute="trailing" secondItem="yJZ-gg-xge" secondAttribute="trailing" id="8wW-cc-XYV"/>
+                            <constraint firstItem="7nf-61-FZl" firstAttribute="bottom" secondItem="yJZ-gg-xge" secondAttribute="bottom" id="OSv-uV-2ol"/>
+                            <constraint firstItem="yJZ-gg-xge" firstAttribute="top" secondItem="7nf-61-FZl" secondAttribute="top" id="Psz-sb-uv4"/>
+                            <constraint firstItem="yJZ-gg-xge" firstAttribute="leading" secondItem="7nf-61-FZl" secondAttribute="leading" id="SJR-K8-ewV"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Instagram" id="4Vp-2D-ikj"/>
+                    <connections>
+                        <outlet property="tableView" destination="yJZ-gg-xge" id="NLe-C8-Qny"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hQV-jc-13q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2056" y="272"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="tyZ-C2-dOO">
@@ -148,6 +197,7 @@
     </scenes>
     <resources>
         <image name="1.circle" catalog="system" width="128" height="123"/>
+        <image name="2.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
