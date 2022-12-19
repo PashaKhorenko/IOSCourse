@@ -11,11 +11,7 @@ class CitiesViewController: UIViewController {
 
     @IBOutlet weak var citiesTableView: UITableView!
     
-    private var data = ["Київ", "Львів", "Чернігів", "Луцьк", "Вінниця", "Рівне", "Івано-Франківськ", "Одеса", "Харків", "Хмельницький", "Ужгород", "Житомир", "Полтава", "Запоріжжя", "Миколаїв", "Суми", "Херсон"] {
-        didSet {
-            self.citiesTableView.reloadData()
-        }
-    }
+    private var data = ["Київ", "Львів", "Чернігів", "Луцьк", "Вінниця", "Рівне", "Івано-Франківськ", "Одеса", "Харків", "Хмельницький", "Ужгород", "Житомир", "Полтава", "Запоріжжя", "Миколаїв", "Суми", "Херсон"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +36,7 @@ class CitiesViewController: UIViewController {
             
             if !cityName.isEmpty {
                 self.data.insert(cityName, at: 0)
+                self.citiesTableView.reloadData()
             }
             
         }
@@ -93,18 +90,10 @@ extension CitiesViewController: UITableViewDelegate {
     }
     
     // Swipe right
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-        // Delete action
-        let deleteAction = UIContextualAction(style: .destructive, title: "nil") { [weak self] (action, view, completionHandler) in
-
-            self?.data.remove(at: indexPath.row)
-            completionHandler(true)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.data.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
-        deleteAction.image = UIImage(systemName: "trash")
-
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-
-        return configuration
     }
 }
