@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4631551F2959B74C00368F46 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4631551E2959B74C00368F46 /* SecondViewController.swift */; };
+		463155222959B7C600368F46 /* Trends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463155212959B7C600368F46 /* Trends.swift */; };
+		463155242959B7EB00368F46 /* Genres.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463155232959B7EB00368F46 /* Genres.swift */; };
+		4631552C2959CB2C00368F46 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4631552A2959CB2B00368F46 /* MovieCollectionViewCell.swift */; };
+		4631552D2959CB2C00368F46 /* MovieCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4631552B2959CB2C00368F46 /* MovieCollectionViewCell.xib */; };
+		4631552F2959DAC800368F46 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4631552E2959DAC800368F46 /* DetailsViewController.swift */; };
 		469E656F2958B45B0084EF26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E656E2958B45B0084EF26 /* AppDelegate.swift */; };
 		469E65712958B45B0084EF26 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E65702958B45B0084EF26 /* SceneDelegate.swift */; };
 		469E65732958B45B0084EF26 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469E65722958B45B0084EF26 /* FirstViewController.swift */; };
@@ -25,6 +31,12 @@
 /* Begin PBXFileReference section */
 		273C440B99162C991668B9FF /* libPods-JSON.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JSON.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		38DDCF84E6173A39B6C7EB1F /* Pods-JSON.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSON.release.xcconfig"; path = "Target Support Files/Pods-JSON/Pods-JSON.release.xcconfig"; sourceTree = "<group>"; };
+		4631551E2959B74C00368F46 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		463155212959B7C600368F46 /* Trends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trends.swift; sourceTree = "<group>"; };
+		463155232959B7EB00368F46 /* Genres.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genres.swift; sourceTree = "<group>"; };
+		4631552A2959CB2B00368F46 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		4631552B2959CB2C00368F46 /* MovieCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCollectionViewCell.xib; sourceTree = "<group>"; };
+		4631552E2959DAC800368F46 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		469E656B2958B45B0084EF26 /* JSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		469E656E2958B45B0084EF26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		469E65702958B45B0084EF26 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,8 +72,25 @@
 				D928A043CC340B52649848BC /* Pods-JSON.debug.xcconfig */,
 				38DDCF84E6173A39B6C7EB1F /* Pods-JSON.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		463155202959B76B00368F46 /* NetworkDataTask */ = {
+			isa = PBXGroup;
+			children = (
+				463155212959B7C600368F46 /* Trends.swift */,
+				463155232959B7EB00368F46 /* Genres.swift */,
+			);
+			path = NetworkDataTask;
+			sourceTree = "<group>";
+		};
+		463155252959C70600368F46 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4631552A2959CB2B00368F46 /* MovieCollectionViewCell.swift */,
+				4631552B2959CB2C00368F46 /* MovieCollectionViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		4637EDA82958E0D200C29393 /* LocalDataTask */ = {
@@ -126,6 +155,7 @@
 		469E65842958B5070084EF26 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				463155202959B76B00368F46 /* NetworkDataTask */,
 				4637EDA82958E0D200C29393 /* LocalDataTask */,
 			);
 			path = Models;
@@ -134,6 +164,7 @@
 		469E65852958B5270084EF26 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				463155252959C70600368F46 /* Cells */,
 				469E65872958B53C0084EF26 /* Storuboards */,
 			);
 			path = Views;
@@ -143,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				469E65722958B45B0084EF26 /* FirstViewController.swift */,
+				4631551E2959B74C00368F46 /* SecondViewController.swift */,
+				4631552E2959DAC800368F46 /* DetailsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -241,6 +274,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4631552D2959CB2C00368F46 /* MovieCollectionViewCell.xib in Resources */,
 				469E65932958B8020084EF26 /* RawData.json in Resources */,
 				469E657B2958B45C0084EF26 /* LaunchScreen.storyboard in Resources */,
 				469E65782958B45C0084EF26 /* Assets.xcassets in Resources */,
@@ -281,12 +315,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				469E65732958B45B0084EF26 /* FirstViewController.swift in Sources */,
+				463155222959B7C600368F46 /* Trends.swift in Sources */,
 				469E656F2958B45B0084EF26 /* AppDelegate.swift in Sources */,
+				4631552C2959CB2C00368F46 /* MovieCollectionViewCell.swift in Sources */,
 				469E658F2958B6A00084EF26 /* RegionPrice.swift in Sources */,
+				4631551F2959B74C00368F46 /* SecondViewController.swift in Sources */,
 				469E65952958D5A00084EF26 /* JsonDataParser.swift in Sources */,
 				469E65712958B45B0084EF26 /* SceneDelegate.swift in Sources */,
+				463155242959B7EB00368F46 /* Genres.swift in Sources */,
 				469E65892958B5A50084EF26 /* Company.swift in Sources */,
 				469E658B2958B6160084EF26 /* Device.swift in Sources */,
+				4631552F2959DAC800368F46 /* DetailsViewController.swift in Sources */,
 				469E658D2958B6750084EF26 /* PriceInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
