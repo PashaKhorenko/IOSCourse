@@ -1,0 +1,29 @@
+{
+    "count": 18912738165,
+    "companyDescription": "Apple Inc. designs, manufactures and markets smartphones, personal computers, tablets, wearables, and accessories and sells a range of related services.",
+    "listOfData": [{
+        "year": 2022,
+        "modelNumber":"A1234",
+        "name":"iPhone 14",
+        "countries": ["USA","EU"],
+        "price":{
+            "regions":[
+                {"name":"USA","price":900},
+                {"name":"EU","price":930}
+            ]
+        }
+    }, {
+        "year":2021,
+        "modelNumber":"A9813",
+        "name":"iPhone 13 Pro",
+        "countries":["USA","EU"],
+        "price":{
+            "regions":[
+                {"name":"USA","price":900},
+                {"name":"EU","price":930}
+            ]
+            
+        }
+    }
+    ]
+}
