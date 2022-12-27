@@ -76,6 +76,7 @@ extension SecondViewController: UICollectionViewDelegate {
         guard let detailsVC = storyboard.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController else { return }
         
         detailsVC.movie = moviesArray[indexPath.item]
+        detailsVC.allGenresArray = genresArray
         
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
