@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ViewController: UIViewController {
     
     private let tableViewCellId = "TabelViewCell"
+    private let realm = try! Realm()
     
     // MARK: - UI elements
     
@@ -21,7 +23,17 @@ class ViewController: UIViewController {
     
     // MARK: - Data
     
-    private var purchasesArray: [Purchase] = []
+    private var purchasesArray: Results<Purchase>!
+    
+    private func save(with title: String, _ date: Date = .now) {
+        let newProduct = Purchase()
+        newProduct.title = title
+        newProduct.createdDate = date
+        
+        realm.beginWrite()
+        realm.add(newProduct)
+        try! realm.commitWrite()
+    }
 
     // MARK: - Life Cycle
     
@@ -30,6 +42,8 @@ class ViewController: UIViewController {
  
         setupViews()
         setConstraints()
+        
+        purchasesArray = realm.objects(Purchase.self)
     }
     
     // MARK: - Settings
@@ -68,14 +82,12 @@ class ViewController: UIViewController {
         
         let doneAction = UIAlertAction(title: "Done", style: .default) { _ in
             guard let text = alertController.textFields?.first?.text else { return }
-            guard !text.isEmpty else { return }
+            let titleText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard titleText != "" else { return }
             
-            let titleText = text.trimmingCharacters(in: .whitespaces)
-            let newProduct = Purchase(title: titleText, createdDate: .now)
+            self.save(with: titleText)
             
-            let indexPaths = [IndexPath(row: 0, section: 0)]
-            
-            self.purchasesArray.insert(newProduct, at: indexPaths.first!.row)
+            let indexPaths = [IndexPath(row: self.purchasesArray.count - 1, section: 0)]
             self.tableView.insertRows(at: indexPaths, with: .fade)
         }
         
@@ -93,7 +105,16 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        purchasesArray.count
+        guard !purchasesArray.isEmpty else {
+            self.tableView.setEmptyMessage("""
+                                            Your shopping list is currently empty.
+                                            To add a new purchase to the list, click on the
+                                            \"+\" button in the upper right corner.
+                                            """)
+            return 0
+        }
+        self.tableView.restore()
+        return purchasesArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -118,9 +139,14 @@ extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
+        let editingRow = purchasesArray[indexPath.row]
+        
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
             
-            self?.purchasesArray.remove(at: indexPath.row)
+            self?.realm.beginWrite()
+            self?.realm.delete(editingRow)
+            try! self?.realm.commitWrite()
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
             
             completionHandler(true)
