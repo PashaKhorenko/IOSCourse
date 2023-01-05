@@ -11,13 +11,31 @@ class TableViewCell: UITableViewCell {
     
     // MARK: - UI elements
     
-    private var testLabel: UILabel = {
+    private var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 20)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private var dateLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .systemGray
+        label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.spacing = 0
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
 
     // MARK: - Init
@@ -38,18 +56,25 @@ class TableViewCell: UITableViewCell {
     
     // MARK: - Settings
     
-    func configure(with data: String) {
-        testLabel.text = data
+    func configure(with data: Purchase) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, d MMM yyyy HH:mm:ss"
+        
+        titleLabel.text = data.title
+        dateLabel.text = formatter.string(from: data.createdDate)
     }
     
     private func setupViews() {
-        addSubview(testLabel)
+        addSubview(stackView)
         
-        NSLayoutConstraint.activate([
-            testLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            testLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            testLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            testLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(dateLabel)
+        
+        NSLayoutConstraint.activate([            
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
     }
 }

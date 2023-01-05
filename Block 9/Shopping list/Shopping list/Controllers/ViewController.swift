@@ -21,16 +21,12 @@ class ViewController: UIViewController {
     
     // MARK: - Data
     
-    private var purchasesArray: [String] = []
+    private var purchasesArray: [Purchase] = []
 
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        for item in 0...20 {
-            purchasesArray.append(String(item))
-        }
  
         setupViews()
         setConstraints()
@@ -46,9 +42,50 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        let addBarButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                           target: self,
+                                           action: #selector(addBarButtonPressed(_:)))
+        
+        self.navigationItem.rightBarButtonItem = addBarButton
         self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    
+    @objc func addBarButtonPressed(_ sender: UIBarButtonItem) {
+        showAlert()
+    }
+    
+    // MARK: - AlertController
+    
+    private func showAlert() {
+        let alertController = UIAlertController(title: "New Purchase", message: "Add a new item to your shopping list", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter a short title"
+            textField.returnKeyType = .done
+            textField.clearButtonMode = .whileEditing
+        }
+        
+        let doneAction = UIAlertAction(title: "Done", style: .default) { _ in
+            guard let text = alertController.textFields?.first?.text else { return }
+            guard !text.isEmpty else { return }
+            
+            let titleText = text.trimmingCharacters(in: .whitespaces)
+            let newProduct = Purchase(title: titleText, createdDate: .now)
+            
+            let indexPaths = [IndexPath(row: 0, section: 0)]
+            
+            self.purchasesArray.insert(newProduct, at: indexPaths.first!.row)
+            self.tableView.insertRows(at: indexPaths, with: .fade)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alertController.addAction(doneAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -68,15 +105,28 @@ extension ViewController: UITableViewDataSource {
         return cell
     }
     
-    
 }
 
 // MARK: - UITableViewDelegate
 
 extension ViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        print(purchasesArray[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
+            
+            self?.purchasesArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            completionHandler(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
 
