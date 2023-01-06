@@ -15,11 +15,7 @@ class ViewController: UIViewController {
     
     // MARK: - UI elements
     
-    private var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private var tableView = UITableView()
     
     // MARK: - Data
     
@@ -161,6 +157,8 @@ extension ViewController: UITableViewDelegate {
 extension ViewController {
     
     private func setConstraints() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
