@@ -12,21 +12,49 @@ class DetailsViewController: UIViewController {
 
     var allGenresArray: [Genre] = []
     var movie: Result? = nil
-                
-    private var activityIndicator = UIActivityIndicatorView()
-    private var posterImageView = UIImageView()
+      
+    // MARK: UI Elements
     
-    private var titleLabel = UILabel()
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
     
-    private var releaseDateLabel = UILabel()
-    private var genresLabel = UILabel()
-    private var ageRestrictionsLabel = UILabel()
+    private let generalStackView = StandartStackView()
+    private let reactionStackView = StandartStackView()
+    private let overviewStackView = StandartStackView()
     
-    private var averageScoreLabel = UILabel()
-    private var scoreNumberLabel = UILabel()
-    private var popularityLabel = UILabel()
+    private var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.startAnimating()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    private var posterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .systemGray4
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
-    private var overviewLabel = UILabel()
+    private var titleLabel = TitleLabel()
+    
+    private var generalSubtitleLabel = SubtitleLabel()
+    private var releaseDateLabel = StandartLabel()
+    private var genresLabel = StandartLabel()
+    private var ageRestrictionsLabel = StandartLabel()
+    
+    private var reactionSubtitleLabel = SubtitleLabel()
+    private var averageScoreLabel = StandartLabel()
+    private var scoreNumberLabel = StandartLabel()
+    private var popularityLabel = StandartLabel()
+    
+    private var overviewSubtitleLabel = SubtitleLabel()
+    private var overviewLabel = StandartLabel()
+    
+    // MARK: - Life Сycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,16 +70,35 @@ class DetailsViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         self.posterImageView.backgroundColor = .systemBackground
         
-        view.addSubview(posterImageView)
+        generalSubtitleLabel.text = "General Information"
+        reactionSubtitleLabel.text = "Reactions"
+        overviewSubtitleLabel.text = "Overview"
+        
         posterImageView.addSubview(activityIndicator)
-        view.addSubview(titleLabel)
-        view.addSubview(releaseDateLabel)
-        view.addSubview(genresLabel)
-        view.addSubview(ageRestrictionsLabel)
-        view.addSubview(averageScoreLabel)
-        view.addSubview(scoreNumberLabel)
-        view.addSubview(popularityLabel)
-        view.addSubview(overviewLabel)
+
+        scrollView.addSubview(posterImageView)
+        scrollView.addSubview(titleLabel)
+        
+        generalStackView.addArrangedSubview(generalSubtitleLabel)
+        generalStackView.addArrangedSubview(releaseDateLabel)
+        generalStackView.addArrangedSubview(genresLabel)
+        generalStackView.addArrangedSubview(ageRestrictionsLabel)
+        
+        scrollView.addSubview(generalStackView)
+        
+        reactionStackView.addArrangedSubview(reactionSubtitleLabel)
+        reactionStackView.addArrangedSubview(averageScoreLabel)
+        reactionStackView.addArrangedSubview(scoreNumberLabel)
+        reactionStackView.addArrangedSubview(popularityLabel)
+        
+        scrollView.addSubview(reactionStackView)
+        
+        overviewStackView.addArrangedSubview(overviewSubtitleLabel)
+        overviewStackView.addArrangedSubview(overviewLabel)
+        
+        scrollView.addSubview(overviewStackView)
+        
+        view.addSubview(scrollView)
         
         setConstraints()
     }
@@ -110,65 +157,45 @@ class DetailsViewController: UIViewController {
     }
 }
 
+
+
+// MARK: - Constraints
+
 extension DetailsViewController {
+    
     private func setConstraints() {
-        
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        releaseDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        genresLabel.translatesAutoresizingMaskIntoConstraints = false
-        ageRestrictionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        averageScoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        scoreNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-        popularityLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            posterImageView.heightAnchor.constraint(equalToConstant: 150),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
             activityIndicator.centerYAnchor.constraint(equalTo: posterImageView.centerYAnchor),
             activityIndicator.centerXAnchor.constraint(equalTo: posterImageView.centerXAnchor),
             
+            posterImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            posterImageView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 0.6),
+
             titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 15),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            releaseDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            releaseDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            releaseDateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            genresLabel.topAnchor.constraint(equalTo: releaseDateLabel.bottomAnchor, constant: 10),
-            genresLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            genresLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            ageRestrictionsLabel.topAnchor.constraint(equalTo: genresLabel.bottomAnchor, constant: 10),
-            ageRestrictionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            ageRestrictionsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            averageScoreLabel.topAnchor.constraint(equalTo: ageRestrictionsLabel.bottomAnchor, constant: 20),
-            averageScoreLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            averageScoreLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            scoreNumberLabel.topAnchor.constraint(equalTo: averageScoreLabel.bottomAnchor, constant: 10),
-            scoreNumberLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            scoreNumberLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            popularityLabel.topAnchor.constraint(equalTo: scoreNumberLabel.bottomAnchor, constant: 10),
-            popularityLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            popularityLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            overviewLabel.topAnchor.constraint(equalTo: popularityLabel.bottomAnchor, constant: 20),
-            overviewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            overviewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            overviewLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+
+            generalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            generalStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            generalStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+
+            reactionStackView.topAnchor.constraint(equalTo: generalStackView.bottomAnchor, constant: 20),
+            reactionStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            reactionStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+
+            overviewStackView.topAnchor.constraint(equalTo: reactionStackView.bottomAnchor, constant: 20),
+            overviewStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            overviewStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+            overviewStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+
+            overviewLabel.widthAnchor.constraint(equalToConstant: view.frame.width - 40)
         ])
     }
 }

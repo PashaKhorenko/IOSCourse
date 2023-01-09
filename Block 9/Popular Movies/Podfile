@@ -7,5 +7,6 @@ target 'Popular Movies' do
 
   # Pods for Popular Movies
   pod 'Alamofire'
+  pod 'RealmSwift'
 
 end
