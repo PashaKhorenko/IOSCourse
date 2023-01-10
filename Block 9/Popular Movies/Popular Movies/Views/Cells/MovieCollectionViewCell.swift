@@ -31,10 +31,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(fromMovie movie: Result) {
+    func configure(fromMovie movie: RealmMovie) {
         activityIndicator.startAnimating()
         
-        let imageURL = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")"
+        let imageURL = "https://image.tmdb.org/t/p/w500\(movie.posterPath)"
         
         AF.request(imageURL, method: .get)
             .validate()

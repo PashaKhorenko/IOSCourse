@@ -7,11 +7,14 @@
 
 import UIKit
 import Alamofire
+import RealmSwift
 
 class DetailsViewController: UIViewController {
-
-    var allGenresArray: [Genre] = []
-    var movie: Result? = nil
+    
+    private let realm = try! Realm()
+    
+    private var genresArray: Results<RealmGenre>!
+    var movie: RealmMovie? = nil
       
     // MARK: UI Elements
     
@@ -58,12 +61,18 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+          
+        genresArray = realm.objects(RealmGenre.self)
         setupViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         populateUIForTheMovie()
     }
     
+    // MARK: - Settings
     private func setupViews() {
         navigationItem.largeTitleDisplayMode = .never
         
@@ -103,37 +112,38 @@ class DetailsViewController: UIViewController {
         setConstraints()
     }
     
+    
     private func populateUIForTheMovie() {
         guard let movie else { return }
         
-        downloadImage(byPath: movie.backdropPath ?? "")
+        downloadImage(byPath: movie.backdropPath)
         
         titleLabel.text = movie.title
         
-        releaseDateLabel.text = "Relise date: \(movie.releaseDate ?? "Unfortunately, it is unknown.")"
-        genresLabel.text = getMovieGenre(from: movie.genreIDS ?? [])
-        
-        if let adult = movie.adult {
-            ageRestrictionsLabel.text = "Age restrictions: \(adult ? "Children are prohibited" : "Missing")"
+        releaseDateLabel.text = "Relise date: \(movie.releaseDate)"
+        genresLabel.text = getMovieGenre(from: movie.genreIDS.convertToArray())
+
+        if movie.adult {
+            ageRestrictionsLabel.text = "Age restrictions: Children are prohibited"
         } else {
-            ageRestrictionsLabel.text = "Age restrictions: No data available"
+            ageRestrictionsLabel.text = "Age restrictions: Missing"
         }
         
         
-        popularityLabel.text = "Popularity: \(movie.popularity ?? 0)"
-        averageScoreLabel.text = "Average score: \(movie.voteAverage ?? 0)"
-        scoreNumberLabel.text = "Number of votes: \(movie.voteCount ?? 0)"
+        popularityLabel.text = "Popularity: \(movie.popularity)"
+        averageScoreLabel.text = "Average score: \(movie.voteAverage)"
+        scoreNumberLabel.text = "Number of votes: \(movie.voteCount)"
         
-        overviewLabel.text = movie.overview ?? ""
+        overviewLabel.text = movie.overview
     }
     
     private func getMovieGenre(from movieGenres: [Int]) -> String {
         var result = "Genre: "
         
-        for allGenre in allGenresArray {
-            for movieGenreID in movieGenres {
-                if movieGenreID == allGenre.id! {
-                    result.append("\(allGenre.name!), ")
+        for movieGenreID in movieGenres {
+            for genre in genresArray {
+                if movieGenreID == genre.id {
+                    result.append("\(genre.name), ")
                 }
             }
         }

@@ -1,5 +1,5 @@
 //
-//  Trends.swift
+//  TrendsResponse.swift
 //  Popular Movies
 //
 //  Created by Паша Хоренко on 06.01.2023.
@@ -9,24 +9,15 @@ import Foundation
 
 // MARK: - Trends
 struct Trends: Codable {
-    var page: Int?
-    var results: [Result]?
-    var totalPages, totalResults: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case page, results
-        case totalPages = "total_pages"
-        case totalResults = "total_results"
-    }
+    var results: [MovieServerResponse]?
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct MovieServerResponse : Codable {
     var adult: Bool?
     var backdropPath: String?
     var id: Int?
     var title: String?
-    var originalLanguage: OriginalLanguage?
     var overview, posterPath: String?
     var genreIDS: [Int]?
     var popularity: Double?
@@ -38,7 +29,6 @@ struct Result: Codable {
         case adult
         case backdropPath = "backdrop_path"
         case id, title
-        case originalLanguage = "original_language"
         case overview
         case posterPath = "poster_path"
         case genreIDS = "genre_ids"
@@ -48,9 +38,3 @@ struct Result: Codable {
         case voteCount = "vote_count"
     }
 }
-
-enum OriginalLanguage: String, Codable {
-    case en = "en"
-    case no = "no"
-}
-

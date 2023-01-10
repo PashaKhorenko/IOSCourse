@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import RealmSwift
 
 class PopularMoviesViewController: UIViewController {
     
@@ -16,12 +17,14 @@ class PopularMoviesViewController: UIViewController {
     private let movieCellID = "MovieCollectionViewCell"
     private let apiKey = "5596b19dd1f5e2efb7f5a6e4cf3431f8"
     
-    private var trendsURL: String {
+    private var moviesURL: String {
         "https://api.themoviedb.org/3/trending/movie/week?api_key=\(apiKey)"
     }
     private var genresURL: String {
         "https://api.themoviedb.org/3/genre/movie/list?api_key=\(apiKey)&language=en-US"
     }
+    
+    // MARK: UI elements
     
     private var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -29,30 +32,26 @@ class PopularMoviesViewController: UIViewController {
         return collectionView
     }()
     
-    private var moviesArray: [Result] = []
-    private var genresArray: [Genre] = []
+    // MARK: Data
+    private let realm = try! Realm()
+    private let networkService = NetworkService()
     
-    // MARK: Life Сycle
+    private var moviesArray: Results<RealmMovie>!
+    
+    // MARK: - Views Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        try! realm.write({
+//            realm.deleteAll()
+//            print("Видалили все")
+//        })
+        
         setupViews()
         
-        AF.request(trendsURL)
-            .validate()
-            .responseDecodable(of: Trends.self) { (response) in
-                guard let movies = response.value?.results else { return }
-                self.moviesArray = movies
-                
-                self.collectionView.reloadData()
-            }
+        downloadData()
         
-        AF.request(genresURL)
-            .validate()
-            .responseDecodable(of: Genres.self) { (response) in
-                guard let genres = response.value?.genres else { return }
-                self.genresArray = genres
-            }
+        moviesArray = realm.objects(RealmMovie.self)
     }
     
     // MARK: - Settings
@@ -69,8 +68,13 @@ class PopularMoviesViewController: UIViewController {
         setConstraints()
     }
     
+    // MARK: - Downloading data
+    private func downloadData() {
+        networkService.downloadMovies(byPath: moviesURL, for: collectionView)
+        networkService.downloadGenres(byPath: genresURL)
+    }
+    
 }
-
 
 // MARK: - UICollectionViewDataSource
 extension PopularMoviesViewController: UICollectionViewDataSource {
@@ -80,8 +84,8 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: movieCellID, for: indexPath) as! MovieCollectionViewCell
-        
-        cell.configure(fromMovie: moviesArray[indexPath.item])
+        let movie = moviesArray[indexPath.item]
+        cell.configure(fromMovie: movie)
         
         return cell
     }
@@ -94,10 +98,8 @@ extension PopularMoviesViewController: UICollectionViewDelegate {
         let detailsVC = DetailsViewController()
 
         detailsVC.movie = moviesArray[indexPath.item]
-        detailsVC.allGenresArray = genresArray
-
+        
         self.navigationController?.pushViewController(detailsVC, animated: true)
-//        print(indexPath)
     }
 }
 
