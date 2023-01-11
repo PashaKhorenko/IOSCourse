@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0EC932C862DE0459A4DF2786 /* Pods_Popular_Movies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B3F43CF5B5D94E376CBDA9 /* Pods_Popular_Movies.framework */; };
+		462B8F99296EC543005D867C /* RealmPosterImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B8F98296EC543005D867C /* RealmPosterImage.swift */; };
+		462B8F9B296EC55C005D867C /* RealmBackdropImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B8F9A296EC55C005D867C /* RealmBackdropImage.swift */; };
+		462B8F9D296EC6C4005D867C /* StandartActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B8F9C296EC6C4005D867C /* StandartActivityIndicator.swift */; };
+		462B8FA0296EEB96005D867C /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B8F9F296EEB96005D867C /* StorageManager.swift */; };
 		466107D8296D91CD008CAFC3 /* RealmCollection+convertToArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466107D7296D91CD008CAFC3 /* RealmCollection+convertToArray.swift */; };
-		466107DB296D9644008CAFC3 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466107DA296D9644008CAFC3 /* Service.swift */; };
+		466107DB296D9644008CAFC3 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466107DA296D9644008CAFC3 /* NetworkManager.swift */; };
 		46A6CD86296C496500F13784 /* RealmMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6CD85296C496500F13784 /* RealmMovie.swift */; };
 		46A6CD8C296C5A6A00F13784 /* RealmGenre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6CD8B296C5A6A00F13784 /* RealmGenre.swift */; };
 		46C6EDDF296836DC00295676 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C6EDDE296836DC00295676 /* AppDelegate.swift */; };
@@ -29,8 +33,12 @@
 
 /* Begin PBXFileReference section */
 		45B3F43CF5B5D94E376CBDA9 /* Pods_Popular_Movies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Popular_Movies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		462B8F98296EC543005D867C /* RealmPosterImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmPosterImage.swift; sourceTree = "<group>"; };
+		462B8F9A296EC55C005D867C /* RealmBackdropImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmBackdropImage.swift; sourceTree = "<group>"; };
+		462B8F9C296EC6C4005D867C /* StandartActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandartActivityIndicator.swift; sourceTree = "<group>"; };
+		462B8F9F296EEB96005D867C /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		466107D7296D91CD008CAFC3 /* RealmCollection+convertToArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealmCollection+convertToArray.swift"; sourceTree = "<group>"; };
-		466107DA296D9644008CAFC3 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		466107DA296D9644008CAFC3 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		46A6CD85296C496500F13784 /* RealmMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMovie.swift; sourceTree = "<group>"; };
 		46A6CD8B296C5A6A00F13784 /* RealmGenre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmGenre.swift; sourceTree = "<group>"; };
 		46C6EDDE296836DC00295676 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,10 +72,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		462B8F97296EC51E005D867C /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				462B8F98296EC543005D867C /* RealmPosterImage.swift */,
+				462B8F9A296EC55C005D867C /* RealmBackdropImage.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		462B8F9E296EEB7E005D867C /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				462B8F9F296EEB96005D867C /* StorageManager.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		466107D9296D960F008CAFC3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				466107DA296D9644008CAFC3 /* Service.swift */,
+				466107DA296D9644008CAFC3 /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -94,6 +119,7 @@
 			children = (
 				46A6CD85296C496500F13784 /* RealmMovie.swift */,
 				46A6CD8B296C5A6A00F13784 /* RealmGenre.swift */,
+				462B8F97296EC51E005D867C /* Images */,
 			);
 			path = RealmModels;
 			sourceTree = "<group>";
@@ -152,6 +178,7 @@
 		46C6EDF5296839B000295676 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				462B8F9E296EEB7E005D867C /* Storage */,
 				466107D9296D960F008CAFC3 /* Network */,
 				46A6CD87296C4EDD00F13784 /* ResponseModels */,
 				46A6CD88296C4F0800F13784 /* RealmModels */,
@@ -163,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				46CAB8A229685FF30075B722 /* StandartStackView.swift */,
+				462B8F9C296EC6C4005D867C /* StandartActivityIndicator.swift */,
 				46CAB89F29685F3B0075B722 /* Cells */,
 				46CAB8AA29686FA90075B722 /* Labels */,
 			);
@@ -327,12 +355,16 @@
 				46A6CD86296C496500F13784 /* RealmMovie.swift in Sources */,
 				46C6EDDF296836DC00295676 /* AppDelegate.swift in Sources */,
 				46C6EDFC29683A5900295676 /* MovieCollectionViewCell.swift in Sources */,
+				462B8FA0296EEB96005D867C /* StorageManager.swift in Sources */,
 				466107D8296D91CD008CAFC3 /* RealmCollection+convertToArray.swift in Sources */,
-				466107DB296D9644008CAFC3 /* Service.swift in Sources */,
+				466107DB296D9644008CAFC3 /* NetworkManager.swift in Sources */,
+				462B8F9D296EC6C4005D867C /* StandartActivityIndicator.swift in Sources */,
 				46CAB8A329685FF30075B722 /* StandartStackView.swift in Sources */,
 				46C6EDFE29683FCF00295676 /* DetailsViewController.swift in Sources */,
 				46C6EDE1296836DC00295676 /* SceneDelegate.swift in Sources */,
 				46C6EDF8296839F700295676 /* TrendsResponse.swift in Sources */,
+				462B8F9B296EC55C005D867C /* RealmBackdropImage.swift in Sources */,
+				462B8F99296EC543005D867C /* RealmPosterImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,10 +19,5 @@ class RealmMovie: Object {
     @objc dynamic var popularity: Double = 0
     @objc dynamic var voteCount: Int = 0
     @objc dynamic var voteAverage: Double = 0
-//    @objc dynamic var genreIDS = List<Int>()
     dynamic var genreIDS = List<Int>()
 }
-
-//class IntObject: Object {
-//    dynamic var value: Int = 0
-//}

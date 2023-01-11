@@ -12,9 +12,13 @@ import RealmSwift
 class DetailsViewController: UIViewController {
     
     private let realm = try! Realm()
+    private let networkManager = NetworkManager()
     
     private var genresArray: Results<RealmGenre>!
+    private var backdropImagesArray: Results<RealmBackdropImage>!
+    
     var movie: RealmMovie? = nil
+    var imageId: Int = 0
       
     // MARK: UI Elements
     
@@ -28,13 +32,8 @@ class DetailsViewController: UIViewController {
     private let reactionStackView = StandartStackView()
     private let overviewStackView = StandartStackView()
     
-    private var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.startAnimating()
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return activityIndicator
-    }()
-    private var posterImageView: UIImageView = {
+    private var activityIndicator = StandartActivityIndicator(frame: .zero)
+    private var backdropImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         imageView.backgroundColor = .systemGray4
@@ -63,6 +62,7 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
           
         genresArray = realm.objects(RealmGenre.self)
+        backdropImagesArray = realm.objects(RealmBackdropImage.self)
         setupViews()
     }
     
@@ -77,15 +77,15 @@ class DetailsViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         
         self.view.backgroundColor = .systemBackground
-        self.posterImageView.backgroundColor = .systemBackground
+        self.backdropImageView.backgroundColor = .systemGray
         
         generalSubtitleLabel.text = "General Information"
         reactionSubtitleLabel.text = "Reactions"
         overviewSubtitleLabel.text = "Overview"
         
-        posterImageView.addSubview(activityIndicator)
+        backdropImageView.addSubview(activityIndicator)
 
-        scrollView.addSubview(posterImageView)
+        scrollView.addSubview(backdropImageView)
         scrollView.addSubview(titleLabel)
         
         generalStackView.addArrangedSubview(generalSubtitleLabel)
@@ -112,11 +112,29 @@ class DetailsViewController: UIViewController {
         setConstraints()
     }
     
-    
     private func populateUIForTheMovie() {
         guard let movie else { return }
         
-        downloadImage(byPath: movie.backdropPath)
+        if backdropImagesArray.isEmpty {
+            networkManager.downloadImage(dyPash: movie.backdropPath,
+                                         for: backdropImageView, activityIndicator,
+                                         with: .backdropImage, imageId: self.imageId)
+        } else {
+            let isIndexValid = backdropImagesArray.indices.contains(self.imageId)
+            
+            if isIndexValid {
+                if let imageData = backdropImagesArray[self.imageId].backdropData {
+                    backdropImageView.image = UIImage(data:  imageData)
+                    print("BackdropImage #\(self.imageId) from REALM")
+                    activityIndicator.stopAnimating()
+                    
+                }
+            } else {
+                networkManager.downloadImage(dyPash: movie.backdropPath,
+                                             for: backdropImageView, activityIndicator,
+                                             with: .backdropImage, imageId: self.imageId)
+            }
+        }
         
         titleLabel.text = movie.title
         
@@ -150,21 +168,6 @@ class DetailsViewController: UIViewController {
         
         return String(result.dropLast(2))
     }
-    
-    private func downloadImage(byPath url: String) {
-        let imageURL = "https://image.tmdb.org/t/p/w500\(url)"
-        
-        AF.request(imageURL, method: .get)
-            .validate()
-            .responseData { response in
-                guard let data = response.data else {
-                    print("Failed to load image.")
-                    return
-                }
-                self.posterImageView.image = UIImage(data: data)
-                self.activityIndicator.stopAnimating()
-            }
-    }
 }
 
 
@@ -180,15 +183,15 @@ extension DetailsViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
-            activityIndicator.centerYAnchor.constraint(equalTo: posterImageView.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: posterImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: backdropImageView.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: backdropImageView.centerXAnchor),
             
-            posterImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            posterImageView.widthAnchor.constraint(equalToConstant: view.frame.width),
-            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 0.6),
+            backdropImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            backdropImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            backdropImageView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            backdropImageView.heightAnchor.constraint(equalTo: backdropImageView.widthAnchor, multiplier: 0.6),
 
-            titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 15),
+            titleLabel.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 15),
             titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
 

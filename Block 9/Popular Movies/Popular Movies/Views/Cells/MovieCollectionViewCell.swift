@@ -7,45 +7,56 @@
 
 import UIKit
 import Alamofire
+import RealmSwift
 
 class MovieCollectionViewCell: UICollectionViewCell {
+    
+    private let networkManager = NetworkManager()
+    private let realm = try! Realm()
     
     private var posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return activityIndicator
-    }()
+    private var activityIndicator = StandartActivityIndicator(frame: .zero)
+    
+    private var posterImagesArray: Results<RealmPosterImage>!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         setupViews()
+        posterImagesArray = realm.objects(RealmPosterImage.self)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(fromMovie movie: RealmMovie) {
-        activityIndicator.startAnimating()
-        
-        let imageURL = "https://image.tmdb.org/t/p/w500\(movie.posterPath)"
-        
-        AF.request(imageURL, method: .get)
-            .validate()
-            .responseData { response in
-                guard let data = response.data else {
-                    print("Failed to load image.")
-                    return
+    func configure(fromMovie movie: RealmMovie, with imageId: Int) {
+//        networkManager.downloadImage(dyPash: movie.posterPath,
+//                                     for: posterImageView, activityIndicator,
+//                                     with: .posterImage, imageId: imageId)
+        if posterImagesArray.isEmpty {
+            networkManager.downloadImage(dyPash: movie.posterPath,
+                                         for: posterImageView, activityIndicator,
+                                         with: .posterImage, imageId: imageId)
+        } else {
+            let isIndexValid = posterImagesArray.indices.contains(imageId)
+            
+            if isIndexValid {
+                if let imageData = posterImagesArray[imageId].posterData {
+                    print("PosterImage #\(imageId) from REALM")
+                    posterImageView.image = UIImage(data: imageData)
+                    activityIndicator.stopAnimating()
                 }
-                self.posterImageView.image = UIImage(data: data)
-                self.activityIndicator.stopAnimating()
+            } else {
+                networkManager.downloadImage(dyPash: movie.posterPath,
+                                             for: posterImageView, activityIndicator,
+                                             with: .posterImage, imageId: imageId)
             }
+        }
     }
     
     override func layoutSubviews() {

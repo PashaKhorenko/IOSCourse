@@ -25,7 +25,6 @@ class PopularMoviesViewController: UIViewController {
     }
     
     // MARK: UI elements
-    
     private var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +33,7 @@ class PopularMoviesViewController: UIViewController {
     
     // MARK: Data
     private let realm = try! Realm()
-    private let networkService = NetworkService()
+    private let networkManager = NetworkManager()
     
     private var moviesArray: Results<RealmMovie>!
     
@@ -70,8 +69,8 @@ class PopularMoviesViewController: UIViewController {
     
     // MARK: - Downloading data
     private func downloadData() {
-        networkService.downloadMovies(byPath: moviesURL, for: collectionView)
-        networkService.downloadGenres(byPath: genresURL)
+        networkManager.downloadMovies(byPath: moviesURL, for: collectionView)
+        networkManager.downloadGenres(byPath: genresURL)
     }
     
 }
@@ -84,9 +83,10 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: movieCellID, for: indexPath) as! MovieCollectionViewCell
-        let movie = moviesArray[indexPath.item]
-        cell.configure(fromMovie: movie)
         
+        let movie = moviesArray[indexPath.item]
+        cell.configure(fromMovie: movie, with: indexPath.item)
+
         return cell
     }
     
@@ -98,6 +98,7 @@ extension PopularMoviesViewController: UICollectionViewDelegate {
         let detailsVC = DetailsViewController()
 
         detailsVC.movie = moviesArray[indexPath.item]
+        detailsVC.imageId = indexPath.item
         
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
