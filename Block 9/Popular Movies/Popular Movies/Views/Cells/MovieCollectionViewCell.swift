@@ -35,9 +35,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(fromMovie movie: RealmMovie, with imageId: Int) {
-//        networkManager.downloadImage(dyPash: movie.posterPath,
-//                                     for: posterImageView, activityIndicator,
-//                                     with: .posterImage, imageId: imageId)
         if posterImagesArray.isEmpty {
             networkManager.downloadImage(dyPash: movie.posterPath,
                                          for: posterImageView, activityIndicator,

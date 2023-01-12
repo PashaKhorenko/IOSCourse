@@ -30,6 +30,7 @@ class PopularMoviesViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    private let refreshControl = UIRefreshControl()
     
     // MARK: Data
     private let realm = try! Realm()
@@ -40,11 +41,6 @@ class PopularMoviesViewController: UIViewController {
     // MARK: - Views Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        try! realm.write({
-//            realm.deleteAll()
-//            print("Видалили все")
-//        })
         
         setupViews()
         
@@ -64,7 +60,27 @@ class PopularMoviesViewController: UIViewController {
         
         self.collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: movieCellID)
         
+        self.refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
+        self.collectionView.alwaysBounceVertical = true
+        self.collectionView.refreshControl = refreshControl
+        
         setConstraints()
+    }
+    
+    @objc private func didPullToRefresh(_ sender: UIRefreshControl) {
+        do {
+            try realm.write({
+                realm.deleteAll()
+                print("Deleted all data from Realm database")
+            })
+            
+            downloadData()
+            
+        } catch {
+            print("Error deleting data: \(error.localizedDescription)")
+        }
+        
+        refreshControl.endRefreshing()
     }
     
     // MARK: - Downloading data
