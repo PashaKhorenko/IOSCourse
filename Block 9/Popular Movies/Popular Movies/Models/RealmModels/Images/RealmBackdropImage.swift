@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class RealmBackdropImage: Object {
-    @objc dynamic var id: Int = 0
-    @objc dynamic var backdropData: Data?
+    @Persisted(primaryKey: true) dynamic var id: Int = 0
+    @Persisted dynamic var backdropData: Data?
     
 }

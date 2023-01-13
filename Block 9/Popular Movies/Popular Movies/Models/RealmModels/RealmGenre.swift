@@ -9,6 +9,6 @@ import Foundation
 import RealmSwift
 
 class RealmGenre: Object {
-    @objc dynamic var id: Int = 0
-    @objc dynamic var name: String = ""
+    @Persisted(primaryKey: true) dynamic var id: Int = 0
+    @Persisted dynamic var name: String = ""
 }

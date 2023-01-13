@@ -11,9 +11,12 @@ import RealmSwift
 
 class MovieCollectionViewCell: UICollectionViewCell {
     
+    private let storageManager = StorageManager()
     private let networkManager = NetworkManager()
+    
     private let realm = try! Realm()
     
+    // MARK: UI elements
     private var posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -21,8 +24,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
     }()
     private var activityIndicator = StandartActivityIndicator(frame: .zero)
     
+    // MARK: Data
     private var posterImagesArray: Results<RealmPosterImage>!
     
+    
+    // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -34,28 +40,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(fromMovie movie: RealmMovie, with imageId: Int) {
-        if posterImagesArray.isEmpty {
-            networkManager.downloadImage(dyPash: movie.posterPath,
-                                         for: posterImageView, activityIndicator,
-                                         with: .posterImage, imageId: imageId)
-        } else {
-            let isIndexValid = posterImagesArray.indices.contains(imageId)
-            
-            if isIndexValid {
-                if let imageData = posterImagesArray[imageId].posterData {
-                    print("PosterImage #\(imageId) from REALM")
-                    posterImageView.image = UIImage(data: imageData)
-                    activityIndicator.stopAnimating()
-                }
-            } else {
-                networkManager.downloadImage(dyPash: movie.posterPath,
-                                             for: posterImageView, activityIndicator,
-                                             with: .posterImage, imageId: imageId)
-            }
-        }
-    }
-    
+    // MARK: Views Lifecycle
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -65,6 +50,17 @@ class MovieCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = true
     }
     
+    // MARK: Public
+    func configure(fromMovie movie: RealmMovie, with id: Int) {
+        
+        if posterImagesArray.contains(where: { $0.id == id }) {
+            storageManager.getImage(for: posterImageView, activityIndicator, with: id, .posterImage)
+        } else {
+            networkManager.downloadImage(dyPash: movie.posterPath, for: posterImageView, activityIndicator, with: .posterImage, imageId: id)
+        }
+    }
+    
+    // MARK: Private
     private func setupViews() {
         addSubview(posterImageView)
         posterImageView.addSubview(activityIndicator)

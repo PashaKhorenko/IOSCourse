@@ -13,6 +13,7 @@ class DetailsViewController: UIViewController {
     
     private let realm = try! Realm()
     private let networkManager = NetworkManager()
+    private let storageManager = StorageManager()
     
     private var genresArray: Results<RealmGenre>!
     private var backdropImagesArray: Results<RealmBackdropImage>!
@@ -56,7 +57,7 @@ class DetailsViewController: UIViewController {
     private var overviewSubtitleLabel = SubtitleLabel()
     private var overviewLabel = StandartLabel()
     
-    // MARK: - Life Сycle
+    // MARK: - Views Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,10 +65,6 @@ class DetailsViewController: UIViewController {
         genresArray = realm.objects(RealmGenre.self)
         backdropImagesArray = realm.objects(RealmBackdropImage.self)
         setupViews()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
         populateUIForTheMovie()
     }
@@ -115,27 +112,12 @@ class DetailsViewController: UIViewController {
     private func populateUIForTheMovie() {
         guard let movie else { return }
         
-        if backdropImagesArray.isEmpty {
-            networkManager.downloadImage(dyPash: movie.backdropPath,
-                                         for: backdropImageView, activityIndicator,
-                                         with: .backdropImage, imageId: self.imageId)
+        if backdropImagesArray.contains(where: { $0.id == self.imageId }) {
+            storageManager.getImage(for: backdropImageView, activityIndicator, with: self.imageId, .backdropImage)
         } else {
-            let isIndexValid = backdropImagesArray.indices.contains(self.imageId)
-            
-            if isIndexValid {
-                if let imageData = backdropImagesArray[self.imageId].backdropData {
-                    backdropImageView.image = UIImage(data:  imageData)
-                    print("BackdropImage #\(self.imageId) from REALM")
-                    activityIndicator.stopAnimating()
-                    
-                }
-            } else {
-                networkManager.downloadImage(dyPash: movie.backdropPath,
-                                             for: backdropImageView, activityIndicator,
-                                             with: .backdropImage, imageId: self.imageId)
-            }
+            networkManager.downloadImage(dyPash: movie.backdropPath, for: backdropImageView, activityIndicator, with: .backdropImage, imageId: self.imageId)
         }
-        
+                
         titleLabel.text = movie.title
         
         releaseDateLabel.text = "Relise date: \(movie.releaseDate)"
@@ -146,7 +128,6 @@ class DetailsViewController: UIViewController {
         } else {
             ageRestrictionsLabel.text = "Age restrictions: Missing"
         }
-        
         
         popularityLabel.text = "Popularity: \(movie.popularity)"
         averageScoreLabel.text = "Average score: \(movie.voteAverage)"
@@ -169,7 +150,6 @@ class DetailsViewController: UIViewController {
         return String(result.dropLast(2))
     }
 }
-
 
 
 // MARK: - Constraints

@@ -9,15 +9,15 @@ import Foundation
 import RealmSwift
 
 class RealmMovie: Object {
-    @objc dynamic var id: Int = 0
-    @objc dynamic var title: String = ""
-    @objc dynamic var backdropPath: String = ""
-    @objc dynamic var posterPath: String = ""
-    @objc dynamic var overview: String = ""
-    @objc dynamic var releaseDate: String = ""
-    @objc dynamic var adult: Bool = false
-    @objc dynamic var popularity: Double = 0
-    @objc dynamic var voteCount: Int = 0
-    @objc dynamic var voteAverage: Double = 0
-    dynamic var genreIDS = List<Int>()
+    @Persisted(primaryKey: true) dynamic var id: Int = 0
+    @Persisted dynamic var title: String = ""
+    @Persisted dynamic var backdropPath: String = ""
+    @Persisted dynamic var posterPath: String = ""
+    @Persisted dynamic var overview: String = ""
+    @Persisted dynamic var releaseDate: String = ""
+    @Persisted dynamic var adult: Bool = false
+    @Persisted dynamic var popularity: Double = 0
+    @Persisted dynamic var voteCount: Int = 0
+    @Persisted dynamic var voteAverage: Double = 0
+    @Persisted dynamic var genreIDS = List<Int>()
 }

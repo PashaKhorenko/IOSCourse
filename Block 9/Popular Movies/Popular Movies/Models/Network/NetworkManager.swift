@@ -62,6 +62,7 @@ class NetworkManager {
         AF.request(imageURL, method: .get)
             .validate()
             .responseData { response in
+                guard response.error == nil else { return }
                 guard let data = response.data else {
                     print("Failed to load image.")
                     return

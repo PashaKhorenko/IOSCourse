@@ -37,7 +37,7 @@ class StorageManager {
                     object.voteAverage = response.voteAverage!
                     object.genreIDS.append(objectsIn: response.genreIDS!)
 
-                    realm.add(object)
+                    realm.add(object, update: .modified)
                 }
             }
         } catch {
@@ -56,7 +56,7 @@ class StorageManager {
                     object.id = response.id!
                     object.name = response.name!
                     
-                    realm.add(object)
+                    realm.add(object, update: .modified)
                 }
             }
         } catch {
@@ -76,19 +76,49 @@ class StorageManager {
                     let object = RealmPosterImage()
                     object.id = id
                     object.posterData = imageData
-                    realm.add(object)
+                    realm.add(object, update: .modified)
                     print("Save poster image #\(id) to realm")
                 case .backdropImage:
                     
                     let object = RealmBackdropImage()
                     object.id = id
                     object.backdropData = imageData
-                    realm.add(object)
+                    realm.add(object, update: .modified)
                     print("Save backdrop image #\(id) to realm")
                 }
             })
         } catch {
             print("Error image saving: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    // MARK: Get image from database
+    
+    func getImage(for imageView: UIImageView, _ activityIndicator: UIActivityIndicatorView, with id: Int, _ type: ImageType) {
+        switch type {
+        case .posterImage:
+            let posterImages = realm.objects(RealmPosterImage.self)
+            
+            for posterImage in posterImages {
+                if posterImage.id == id {
+                    guard let posterImageData = posterImage.posterData else { return }
+                    imageView.image = UIImage(data: posterImageData)
+                    activityIndicator.stopAnimating()
+                    print("PosterImage #\(id) from Realm database")
+                }
+            }
+        case .backdropImage:
+            let backdropImages = realm.objects(RealmBackdropImage.self)
+            
+            for backdropImage in backdropImages {
+                if backdropImage.id == id {
+                    guard let backdropImageData = backdropImage.backdropData else { return }
+                    imageView.image = UIImage(data: backdropImageData)
+                    activityIndicator.stopAnimating()
+                    print("BackGropImage #\(id) from Realm database")
+                }
+            }
         }
     }
 }

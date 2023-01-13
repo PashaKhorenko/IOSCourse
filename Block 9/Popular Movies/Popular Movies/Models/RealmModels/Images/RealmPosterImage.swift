@@ -9,6 +9,6 @@ import Foundation
 import RealmSwift
 
 class RealmPosterImage: Object {
-    @objc dynamic var id: Int = 0
-    @objc dynamic var posterData: Data?
+    @Persisted(primaryKey: true) dynamic var id: Int = 0
+    @Persisted dynamic var posterData: Data?
 }

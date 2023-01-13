@@ -100,8 +100,9 @@ extension PopularMoviesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: movieCellID, for: indexPath) as! MovieCollectionViewCell
         
-        let movie = moviesArray[indexPath.item]
-        cell.configure(fromMovie: movie, with: indexPath.item)
+        let index = indexPath.item
+        let movie = moviesArray[index]
+        cell.configure(fromMovie: movie, with: index)
 
         return cell
     }
